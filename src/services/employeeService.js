@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API_URL =
-  "http://127.0.0.1:8000/api/employees";
+  "https://cloud-hrms-1.onrender.com/api/employees";
 
 
 // GET ALL EMPLOYEES
