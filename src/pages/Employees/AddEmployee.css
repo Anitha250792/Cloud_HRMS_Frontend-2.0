@@ -1,0 +1,48 @@
+.add-page{
+  width:100%;
+}
+
+.add-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:25px;
+}
+
+.save-btn{
+  background:#4338CA;
+  color:white;
+  border:none;
+  padding:12px 20px;
+  border-radius:10px;
+}
+
+.form-card{
+  background:white;
+  border-radius:16px;
+  padding:25px;
+}
+
+.form-card h2{
+  margin-bottom:20px;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:20px;
+}
+
+.form-grid label{
+  display:block;
+  margin-bottom:8px;
+  font-weight:600;
+}
+
+.form-grid input,
+.form-grid select{
+  width:100%;
+  padding:12px;
+  border:1px solid #E2E8F0;
+  border-radius:10px;
+}

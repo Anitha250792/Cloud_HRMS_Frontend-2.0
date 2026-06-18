@@ -1,0 +1,16 @@
+.quick-card {
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: .3s;
+}
+
+.quick-card:hover {
+  transform: translateY(-3px);
+}
+
+.quick-icon {
+  font-size: 30px;
+  margin-bottom: 12px;
+}

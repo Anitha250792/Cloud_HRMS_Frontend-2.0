@@ -1,0 +1,24 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #F8FAFC;
+  font-family: 'Exo', sans-serif;
+  color: #000000;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  font-family: 'Exo', sans-serif;
+}
+
+input {
+  font-family: 'Exo', sans-serif;
+}

@@ -1,0 +1,84 @@
+.apply-leave-container{
+  max-width:700px;
+  margin:auto;
+  background:#ffffff;
+  padding:30px;
+  border-radius:16px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.08);
+}
+
+.leave-title{
+  color:#4338CA;
+  margin-bottom:8px;
+}
+
+.leave-subtitle{
+  color:#64748B;
+  margin-bottom:25px;
+}
+
+.leave-form{
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+}
+
+.form-group{
+  display:flex;
+  flex-direction:column;
+}
+
+.form-group label{
+  margin-bottom:8px;
+  font-weight:600;
+  color:#334155;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+  padding:12px;
+  border:1px solid #CBD5E1;
+  border-radius:8px;
+  font-size:15px;
+  outline:none;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{
+  border-color:#4338CA;
+}
+
+.date-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+}
+
+.leave-btn{
+  background:#4338CA;
+  color:white;
+  border:none;
+  padding:14px;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:16px;
+  font-weight:600;
+}
+
+.leave-btn:hover{
+  background:#312E81;
+}
+
+@media(max-width:768px){
+
+  .date-row{
+    grid-template-columns:1fr;
+  }
+
+  .apply-leave-container{
+    padding:20px;
+  }
+
+}
