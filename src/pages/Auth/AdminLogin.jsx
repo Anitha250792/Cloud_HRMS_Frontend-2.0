@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "./AdminLogin.css";
 
-import adminImage from "../../assets/images/admin-login.png";
+import adminImage from "../../assets/images/admin-login.jpg";
 
 function AdminLogin() {
 

@@ -17,7 +17,8 @@ import { NavLink } from "react-router-dom";
 function Sidebar() {
 
   const role =
-    localStorage.getItem("userRole");
+    localStorage.getItem("userRole") ||
+    "HR";
 
   const hrMenu = [
     {
@@ -36,17 +37,17 @@ function Sidebar() {
       path: "/attendance",
     },
     {
-      name: "Leave",
+      name: "Leave Management",
       icon: <BeachAccess />,
       path: "/leave",
     },
     {
-      name: "Payroll",
+      name: "Salary Structure",
       icon: <AccountBalanceWallet />,
       path: "/payroll",
     },
     {
-      name: "Payslip",
+      name: "Payslip Generation",
       icon: <Receipt />,
       path: "/payslip-generation",
     },
@@ -63,42 +64,37 @@ function Sidebar() {
   ];
 
   const employeeMenu = [
-  {
-    name: "Dashboard",
-    icon: <Dashboard />,
-    path: "/employee-dashboard",
-  },
-
-  {
-    name: "Attendance",
-    icon: <EventAvailable />,
-    path: "/attendance",
-  },
-
-  {
-    name: "Apply Leave",
-    icon: <BeachAccess />,
-    path: "/apply-leave",
-  },
-
-  {
-    name: "My Leaves",
-    icon: <BeachAccess />,
-    path: "/my-leaves",
-  },
-
-  {
-    name: "My Payslip",
-    icon: <Receipt />,
-    path: "/payslip-generation",
-  },
-
-  {
-    name: "Documents",
-    icon: <Description />,
-    path: "/documents",
-  },
-];
+    {
+      name: "Dashboard",
+      icon: <Dashboard />,
+      path: "/employee-dashboard",
+    },
+    {
+      name: "Attendance",
+      icon: <EventAvailable />,
+      path: "/attendance",
+    },
+    {
+      name: "Apply Leave",
+      icon: <BeachAccess />,
+      path: "/apply-leave",
+    },
+    {
+      name: "My Leaves",
+      icon: <BeachAccess />,
+      path: "/my-leaves",
+    },
+    {
+      name: "My Payslip",
+      icon: <Receipt />,
+      path: "/payslip-generation",
+    },
+    {
+      name: "Documents",
+      icon: <Description />,
+      path: "/documents",
+    },
+  ];
 
   const menuItems =
     role === "HR"
@@ -106,15 +102,20 @@ function Sidebar() {
       : employeeMenu;
 
   return (
+
     <div className="sidebar">
 
       <div>
 
         <div className="logo-section">
 
-          <h2>PayFlow</h2>
+          <h2>
+            PayFlow
+          </h2>
 
-          <p>HR Payroll System</p>
+          <p>
+            HR Payroll System
+          </p>
 
         </div>
 
@@ -131,6 +132,7 @@ function Sidebar() {
                   : "menu-item"
               }
             >
+
               {item.icon}
 
               <span>
@@ -159,7 +161,9 @@ function Sidebar() {
       </NavLink>
 
     </div>
+
   );
+
 }
 
 export default Sidebar;

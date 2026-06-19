@@ -66,20 +66,39 @@ function RecentEmployees() {
 
         <tbody>
 
-          {employees.map((emp)=>(
+{employees.length === 0 ? (
 
-            <tr key={emp.id}>
+<tr>
 
-              <td>{emp.emp_code}</td>
-              <td>{emp.name}</td>
-              <td>{emp.department}</td>
-              <td>{emp.role}</td>
+<td
+  colSpan="4"
+  style={{
+    textAlign:"center"
+  }}
+>
+  No Records Found
+</td>
 
-            </tr>
+</tr>
 
-          ))}
+) : (
 
-        </tbody>
+employees.map((emp)=>(
+
+<tr key={emp.id}>
+
+<td>{emp.emp_code}</td>
+<td>{emp.name}</td>
+<td>{emp.department}</td>
+<td>{emp.role}</td>
+
+</tr>
+
+))
+
+)}
+
+</tbody>
 
       </table>
 

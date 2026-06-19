@@ -8,6 +8,8 @@ function AddEmployee() {
 
   const navigate = useNavigate();
 
+  const [error, setError] = useState("");
+
   const [employee, setEmployee] = useState({
     emp_code: "",
     name: "",
@@ -19,20 +21,43 @@ function AddEmployee() {
   });
 
   const handleChange = (e) => {
+
     setEmployee({
       ...employee,
       [e.target.name]: e.target.value,
     });
+
   };
 
   const handleSave = async () => {
+
+    setError("");
+
+    if (!employee.emp_code.trim()) {
+      setError("Employee Code is required");
+      return;
+    }
+
+    if (!employee.name.trim()) {
+      setError("Employee Name is required");
+      return;
+    }
+
+    if (!employee.email.trim()) {
+      setError("Email is required");
+      return;
+    }
+
+    if (!employee.department) {
+      setError("Department is required");
+      return;
+    }
+
     try {
 
       await createEmployee(employee);
 
-      alert(
-        "Employee Added Successfully"
-      );
+      alert("Employee Added Successfully");
 
       navigate("/employees");
 
@@ -40,13 +65,16 @@ function AddEmployee() {
 
       console.log(error);
 
-      alert(
-        "Unable to save employee"
+      setError(
+        error.response?.data?.message ||
+        "Failed to save employee."
       );
+
     }
   };
 
   return (
+
     <AdminLayout>
 
       <div className="add-page">
@@ -66,12 +94,22 @@ function AddEmployee() {
 
         <div className="form-card">
 
+          {error && (
+            <div className="error-box">
+              {error}
+            </div>
+          )}
+
           <h2>Employee Information</h2>
 
           <div className="form-grid">
 
             <div>
-              <label>Employee Code</label>
+
+              <label>
+                Employee Code
+                <span className="required">*</span>
+              </label>
 
               <input
                 type="text"
@@ -79,10 +117,15 @@ function AddEmployee() {
                 value={employee.emp_code}
                 onChange={handleChange}
               />
+
             </div>
 
             <div>
-              <label>Full Name</label>
+
+              <label>
+                Full Name
+                <span className="required">*</span>
+              </label>
 
               <input
                 type="text"
@@ -90,10 +133,15 @@ function AddEmployee() {
                 value={employee.name}
                 onChange={handleChange}
               />
+
             </div>
 
             <div>
-              <label>Email</label>
+
+              <label>
+                Email
+                <span className="required">*</span>
+              </label>
 
               <input
                 type="email"
@@ -101,10 +149,15 @@ function AddEmployee() {
                 value={employee.email}
                 onChange={handleChange}
               />
+
             </div>
 
             <div>
-              <label>Department</label>
+
+              <label>
+                Department
+                <span className="required">*</span>
+              </label>
 
               <select
                 name="department"
@@ -126,10 +179,13 @@ function AddEmployee() {
                 <option value="IT">
                   IT
                 </option>
+
               </select>
+
             </div>
 
             <div>
+
               <label>Role</label>
 
               <input
@@ -138,9 +194,11 @@ function AddEmployee() {
                 value={employee.role}
                 onChange={handleChange}
               />
+
             </div>
 
             <div>
+
               <label>Salary</label>
 
               <input
@@ -149,9 +207,11 @@ function AddEmployee() {
                 value={employee.salary}
                 onChange={handleChange}
               />
+
             </div>
 
             <div>
+
               <label>Date Joined</label>
 
               <input
@@ -160,6 +220,7 @@ function AddEmployee() {
                 value={employee.date_joined}
                 onChange={handleChange}
               />
+
             </div>
 
           </div>
@@ -169,6 +230,7 @@ function AddEmployee() {
       </div>
 
     </AdminLayout>
+
   );
 }
 

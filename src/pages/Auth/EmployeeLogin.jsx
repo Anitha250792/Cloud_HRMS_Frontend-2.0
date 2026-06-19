@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "./EmployeeLogin.css";
 
-import employeeImage from "../../assets/images/employee-login.png";
+import employeeImage from "../../assets/images/employee-login.jpg";
 
 function EmployeeLogin() {
 

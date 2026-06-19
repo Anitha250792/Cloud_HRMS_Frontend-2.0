@@ -103,62 +103,92 @@ function Documents() {
 
           <tbody>
 
-            {documents.map(
-              (doc, index) => (
+  {documents.length === 0 ? (
 
-                <tr key={index}>
+    <tr>
 
-                  <td>
-                    {doc.name}
-                  </td>
+      <td
+        colSpan="3"
+        style={{
+          textAlign: "center",
+          padding: "20px",
+          color: "#6B7280",
+        }}
+      >
+        No Records Found
+      </td>
 
-                  <td>
-                    {doc.size}
-                  </td>
+    </tr>
 
-                  <td>
+  ) : (
 
-                    <a
-                      href={doc.url}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      View
-                    </a>
+    documents.map((doc, index) => (
 
-                    {" | "}
+      <tr key={index}>
 
-                    <a
-                      href={doc.url}
-                      download={doc.name}
-                    >
-                      Download
-                    </a>
+        <td>
+          {doc.name}
+        </td>
 
-                    {" | "}
+        <td>
+          {doc.size}
+        </td>
 
-                    <button
-                      onClick={() =>
-                        handleDelete(index)
-                      }
-                      style={{
-                        border: "none",
-                        background: "none",
-                        color: "red",
-                        cursor: "pointer",
-                      }}
-                    >
-                      Delete
-                    </button>
+        <td>
 
-                  </td>
+          <a
+            href={doc.url}
+            target="_blank"
+            rel="noreferrer"
+            style={{
+              color: "#4338CA",
+              textDecoration: "none",
+              fontWeight: "600",
+            }}
+          >
+            View
+          </a>
 
-                </tr>
+          {" | "}
 
-              )
-            )}
+          <a
+            href={doc.url}
+            download={doc.name}
+            style={{
+              color: "#10B981",
+              textDecoration: "none",
+              fontWeight: "600",
+            }}
+          >
+            Download
+          </a>
 
-          </tbody>
+          {" | "}
+
+          <button
+            onClick={() =>
+              handleDelete(index)
+            }
+            style={{
+              border: "none",
+              background: "none",
+              color: "#EF4444",
+              cursor: "pointer",
+              fontWeight: "600",
+            }}
+          >
+            Delete
+          </button>
+
+        </td>
+
+      </tr>
+
+    ))
+
+  )}
+
+</tbody>
 
         </table>
 

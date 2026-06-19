@@ -17,15 +17,25 @@ function EmployeeDetails() {
   const [loading, setLoading] =
     useState(true);
 
+  const [error, setError] =
+    useState("");
+
   const [employee, setEmployee] =
     useState({
       emp_code: "",
       name: "",
       email: "",
+      phone: "",
+      gender: "",
       department: "",
       role: "",
       salary: "",
       date_joined: "",
+      address: "",
+      emergency_contact: "",
+      bank_account: "",
+      ifsc_code: "",
+      status: "Active",
     });
 
   useEffect(() => {
@@ -43,7 +53,7 @@ function EmployeeDetails() {
 
         console.log(error);
 
-        alert(
+        setError(
           "Unable to load employee"
         );
 
@@ -64,22 +74,26 @@ function EmployeeDetails() {
     setEmployee({
       ...employee,
       [e.target.name]:
-        e.target.value,
+      e.target.value,
     });
 
   };
 
   const handleUpdate = async () => {
 
-    if (
-      !employee.name ||
-      !employee.email
-    ) {
+    setError("");
 
-      alert(
-        "Name and Email are required"
+    if (!employee.name) {
+      setError(
+        "Employee Name is required"
       );
+      return;
+    }
 
+    if (!employee.email) {
+      setError(
+        "Email is required"
+      );
       return;
     }
 
@@ -98,10 +112,9 @@ function EmployeeDetails() {
 
     } catch (error) {
 
-      console.log(error);
-
-      alert(
-        "Unable to update employee"
+      setError(
+        error.response?.data?.message ||
+        "Failed to update employee."
       );
 
     }
@@ -122,35 +135,21 @@ function EmployeeDetails() {
 
     <AdminLayout>
 
-      <div
-        style={{
-          background: "#fff",
-          padding: "30px",
-          borderRadius: "16px",
-        }}
-      >
+      <div className="form-card">
 
-        <h1>
-          Employee Profile
-        </h1>
+        {error && (
+          <div className="error-box">
+            {error}
+          </div>
+        )}
 
-        <p
-          style={{
-            color: "#6B7280",
-            marginBottom: "25px",
-          }}
-        >
+        <h1>Employee Profile</h1>
+
+        <p>
           Update employee information
         </p>
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns:
-              "repeat(2,1fr)",
-            gap: "20px",
-          }}
-        >
+        <div className="form-grid">
 
           <div>
             <label>
@@ -168,6 +167,7 @@ function EmployeeDetails() {
           <div>
             <label>
               Full Name
+              <span className="required">*</span>
             </label>
 
             <input
@@ -181,6 +181,7 @@ function EmployeeDetails() {
           <div>
             <label>
               Email
+              <span className="required">*</span>
             </label>
 
             <input
@@ -192,9 +193,38 @@ function EmployeeDetails() {
           </div>
 
           <div>
-            <label>
-              Department
-            </label>
+            <label>Phone</label>
+
+            <input
+              type="text"
+              name="phone"
+              value={employee.phone || ""}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div>
+            <label>Gender</label>
+
+            <select
+              name="gender"
+              value={employee.gender || ""}
+              onChange={handleChange}
+            >
+              <option value="">
+                Select Gender
+              </option>
+              <option value="Male">
+                Male
+              </option>
+              <option value="Female">
+                Female
+              </option>
+            </select>
+          </div>
+
+          <div>
+            <label>Department</label>
 
             <input
               type="text"
@@ -205,9 +235,7 @@ function EmployeeDetails() {
           </div>
 
           <div>
-            <label>
-              Role
-            </label>
+            <label>Role</label>
 
             <input
               type="text"
@@ -218,9 +246,7 @@ function EmployeeDetails() {
           </div>
 
           <div>
-            <label>
-              Salary
-            </label>
+            <label>Salary</label>
 
             <input
               type="number"
@@ -231,9 +257,7 @@ function EmployeeDetails() {
           </div>
 
           <div>
-            <label>
-              Date Joined
-            </label>
+            <label>Date Joined</label>
 
             <input
               type="date"
@@ -245,27 +269,73 @@ function EmployeeDetails() {
             />
           </div>
 
+          <div>
+            <label>Emergency Contact</label>
+
+            <input
+              type="text"
+              name="emergency_contact"
+              value={
+                employee.emergency_contact || ""
+              }
+              onChange={handleChange}
+            />
+          </div>
+
+          <div>
+            <label>Bank Account</label>
+
+            <input
+              type="text"
+              name="bank_account"
+              value={
+                employee.bank_account || ""
+              }
+              onChange={handleChange}
+            />
+          </div>
+
+          <div>
+            <label>IFSC Code</label>
+
+            <input
+              type="text"
+              name="ifsc_code"
+              value={
+                employee.ifsc_code || ""
+              }
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="full-width">
+
+            <label>Address</label>
+
+            <textarea
+              rows="4"
+              name="address"
+              value={
+                employee.address || ""
+              }
+              onChange={handleChange}
+            />
+
+          </div>
+
         </div>
 
         <div
           style={{
-            marginTop: "30px",
-            display: "flex",
-            gap: "15px",
+            marginTop:"30px",
+            display:"flex",
+            gap:"15px",
           }}
         >
 
           <button
+            className="save-btn"
             onClick={handleUpdate}
-            style={{
-              background: "#4338CA",
-              color: "#fff",
-              border: "none",
-              padding:
-                "12px 24px",
-              borderRadius: "8px",
-              cursor: "pointer",
-            }}
           >
             Save Changes
           </button>
@@ -274,14 +344,6 @@ function EmployeeDetails() {
             onClick={() =>
               navigate("/employees")
             }
-            style={{
-              background: "#E5E7EB",
-              border: "none",
-              padding:
-                "12px 24px",
-              borderRadius: "8px",
-              cursor: "pointer",
-            }}
           >
             Cancel
           </button>
@@ -293,6 +355,7 @@ function EmployeeDetails() {
     </AdminLayout>
 
   );
+
 }
 
 export default EmployeeDetails;

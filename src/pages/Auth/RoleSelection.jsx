@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import "./RoleSelection.css";
 
-import adminImg from "../../assets/images/admin-login.png";
-import employeeImg from "../../assets/images/employee-login.png";
+import adminImg from "../../assets/images/admin-login.jpg";
+import employeeImg from "../../assets/images/employee-login.jpg";
 
 function RoleSelection() {
 

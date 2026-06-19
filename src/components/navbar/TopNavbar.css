@@ -108,21 +108,30 @@
 
 .notification-dropdown{
   position:absolute;
-  top:70px;
-  right:100px;
-  width:250px;
-  background:white;
-  border-radius:10px;
-  padding:15px;
-  box-shadow:0 4px 12px rgba(0,0,0,0.15);
-  z-index:1000;
+  top:65px;
+  right:0;
+
+  width:280px;
+
+  background:#fff;
+
+  border-radius:16px;
+
+  box-shadow:
+  0 10px 25px rgba(0,0,0,0.12);
+
+  padding:18px;
+
+  z-index:9999;
 }
 
 .notification-dropdown h4{
-  margin-bottom:10px;
+  margin-bottom:15px;
+  color:#111827;
 }
 
 .notification-dropdown p{
-  padding:10px 0;
-  border-bottom:1px solid #eee;
+  padding:12px 0;
+  border-bottom:1px solid #F1F5F9;
+  font-size:14px;
 }

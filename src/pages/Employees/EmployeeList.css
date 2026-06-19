@@ -11,6 +11,7 @@
 
 .employee-header h1{
   font-size:32px;
+  color:#111827;
 }
 
 .employee-header p{
@@ -24,12 +25,18 @@
   padding:12px 20px;
   border-radius:10px;
   cursor:pointer;
+  font-weight:600;
+}
+
+.add-btn:hover{
+  opacity:0.9;
 }
 
 .employee-filters{
   display:flex;
   gap:15px;
   margin-bottom:20px;
+  flex-wrap:wrap;
 }
 
 .employee-filters input,
@@ -37,12 +44,21 @@
   padding:12px;
   border:1px solid #E2E8F0;
   border-radius:10px;
+  min-width:220px;
+  outline:none;
+}
+
+.employee-filters input:focus,
+.employee-filters select:focus{
+  border-color:#4338CA;
 }
 
 .employee-table-card{
   background:white;
   border-radius:16px;
   padding:20px;
+  box-shadow:
+  0 4px 12px rgba(0,0,0,0.05);
 }
 
 table{
@@ -54,6 +70,7 @@ th{
   background:#F8FAFC;
   text-align:left;
   padding:15px;
+  color:#374151;
 }
 
 td{
@@ -61,11 +78,16 @@ td{
   border-bottom:1px solid #E2E8F0;
 }
 
+tr:hover{
+  background:#F9FAFB;
+}
+
 .status-active{
   background:#CCFBF1;
   color:#10B981;
   padding:6px 12px;
   border-radius:20px;
+  font-size:12px;
 }
 
 .status-inactive{
@@ -73,6 +95,12 @@ td{
   color:#EF4444;
   padding:6px 12px;
   border-radius:20px;
+  font-size:12px;
+}
+
+.action-buttons{
+  display:flex;
+  gap:10px;
 }
 
 .view-btn{
@@ -81,4 +109,21 @@ td{
   border:none;
   padding:8px 15px;
   border-radius:8px;
+  cursor:pointer;
+}
+
+.delete-btn{
+  background:#EF4444;
+  color:white;
+  border:none;
+  padding:8px 15px;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+.no-records{
+  text-align:center;
+  padding:25px;
+  color:#64748B;
+  font-weight:500;
 }

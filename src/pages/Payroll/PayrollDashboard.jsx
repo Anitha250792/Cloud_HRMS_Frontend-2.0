@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 
 import AdminLayout from "../../layouts/AdminLayout";
-
-import { getEmployees }
-  from "../../services/employeeService";
+import { getEmployees } from "../../services/employeeService";
 
 import "./PayrollDashboard.css";
 
@@ -32,6 +30,7 @@ function PayrollDashboard() {
       console.log(error);
 
     }
+
   };
 
   const totalEmployees =
@@ -50,8 +49,24 @@ function PayrollDashboard() {
       grossSalary * 0.9
     );
 
+  const processedPayslips =
+    employees.filter(
+      emp => Number(emp.salary) > 0
+    ).length;
+
   const pendingPayslips =
-    employees.length;
+    totalEmployees -
+    processedPayslips;
+
+  const progress =
+    totalEmployees
+      ? Math.round(
+          (
+            processedPayslips /
+            totalEmployees
+          ) * 100
+        )
+      : 0;
 
   return (
 
@@ -64,6 +79,8 @@ function PayrollDashboard() {
       >
         Payroll Dashboard
       </h1>
+
+      {/* SUMMARY */}
 
       <div className="payroll-stats">
 
@@ -119,6 +136,8 @@ function PayrollDashboard() {
 
       </div>
 
+      {/* PAYROLL PROGRESS */}
+
       <div
         className="payroll-progress"
       >
@@ -130,16 +149,24 @@ function PayrollDashboard() {
         <div
           className="progress-bar"
         >
+
           <div
             className="progress-fill"
+            style={{
+              width:
+                `${progress}%`,
+            }}
           ></div>
+
         </div>
 
         <p>
-          75% Completed
+          {progress}% Completed
         </p>
 
       </div>
+
+      {/* EMPLOYEE TABLE */}
 
       <div
         style={{
@@ -166,6 +193,10 @@ function PayrollDashboard() {
             <tr>
 
               <th>
+                Employee Code
+              </th>
+
+              <th>
                 Employee
               </th>
 
@@ -183,31 +214,55 @@ function PayrollDashboard() {
 
           <tbody>
 
-            {employees.map(
-              (emp) => (
+            {employees.length === 0 ? (
 
-                <tr
-                  key={emp.id}
+              <tr>
+
+                <td
+                  colSpan="4"
+                  style={{
+                    textAlign: "center",
+                    padding: "20px",
+                  }}
                 >
+                  No Records Found
+                </td>
 
-                  <td>
-                    {emp.name}
-                  </td>
+              </tr>
 
-                  <td>
-                    {emp.department}
-                  </td>
+            ) : (
 
-                  <td>
-                    ₹
-                    {Number(
-                      emp.salary
-                    ).toLocaleString()}
-                  </td>
+              employees.map(
+                (emp) => (
 
-                </tr>
+                  <tr
+                    key={emp.id}
+                  >
 
+                    <td>
+                      {emp.emp_code}
+                    </td>
+
+                    <td>
+                      {emp.name}
+                    </td>
+
+                    <td>
+                      {emp.department}
+                    </td>
+
+                    <td>
+                      ₹
+                      {Number(
+                        emp.salary
+                      ).toLocaleString()}
+                    </td>
+
+                  </tr>
+
+                )
               )
+
             )}
 
           </tbody>
@@ -219,6 +274,7 @@ function PayrollDashboard() {
     </AdminLayout>
 
   );
+
 }
 
 export default PayrollDashboard;

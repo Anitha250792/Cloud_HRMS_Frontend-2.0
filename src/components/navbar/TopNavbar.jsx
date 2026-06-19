@@ -8,19 +8,29 @@ function TopNavbar() {
   const [showNotifications, setShowNotifications] =
     useState(false);
 
+  const [notifications, setNotifications] =
+    useState([
+      "New leave request submitted",
+      "Payroll generated successfully",
+      "Attendance updated",
+    ]);
+
   const userName =
     localStorage.getItem("userName") ||
-    "Admin User";
+    "Sarah Johnson";
 
   const userRole =
     localStorage.getItem("userRole") ||
-    "Administrator";
+    "HR Manager";
 
-  const notifications = [
-    "New leave request submitted",
-    "Payroll generated successfully",
-    "Attendance updated",
-  ];
+  const handleNotificationClick = () => {
+
+    setShowNotifications(!showNotifications);
+
+    if (!showNotifications) {
+      setNotifications([]);
+    }
+  };
 
   return (
 
@@ -32,7 +42,7 @@ function TopNavbar() {
 
         <input
           type="text"
-          placeholder="Search..."
+          placeholder="Search Employees..."
         />
 
       </div>
@@ -41,18 +51,16 @@ function TopNavbar() {
 
         <div
           className="notification-btn"
-          onClick={() =>
-            setShowNotifications(
-              !showNotifications
-            )
-          }
+          onClick={handleNotificationClick}
         >
 
           <NotificationsIcon />
 
-          <span className="notification-count">
-            {notifications.length}
-          </span>
+          {notifications.length > 0 && (
+            <span className="notification-count">
+              {notifications.length}
+            </span>
+          )}
 
         </div>
 
@@ -62,12 +70,12 @@ function TopNavbar() {
 
             <h4>Notifications</h4>
 
-            {notifications.map(
-              (item, index) => (
-                <p key={index}>
-                  {item}
-                </p>
-              )
+            {notifications.length === 0 ? (
+              <p>No new notifications</p>
+            ) : (
+              notifications.map((item, index) => (
+                <p key={index}>{item}</p>
+              ))
             )}
 
           </div>
@@ -77,11 +85,13 @@ function TopNavbar() {
         <div className="profile">
 
           <div className="avatar">
+
             {userName
               .split(" ")
-              .map(word => word[0])
+              .map((word) => word[0])
               .join("")
               .toUpperCase()}
+
           </div>
 
           <div className="profile-info">
@@ -99,7 +109,6 @@ function TopNavbar() {
     </div>
 
   );
-
 }
 
 export default TopNavbar;

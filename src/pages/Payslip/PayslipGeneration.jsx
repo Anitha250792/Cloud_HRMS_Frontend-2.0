@@ -74,7 +74,9 @@ function PayslipGeneration() {
 
   if (!employeeData || !month) {
 
-    alert("Select Employee and Month");
+    alert(
+      "Select Employee and Month"
+    );
 
     return;
   }
@@ -93,15 +95,17 @@ function PayslipGeneration() {
 
   const doc = new jsPDF();
 
-  // Header
-
-  doc.setFillColor(67, 56, 202);
+  doc.setFillColor(
+    67,
+    56,
+    202
+  );
 
   doc.rect(
     0,
     0,
     210,
-    30,
+    35,
     "F"
   );
 
@@ -116,18 +120,16 @@ function PayslipGeneration() {
   doc.text(
     "PAYFLOW HRMS",
     20,
-    18
+    22
   );
 
   doc.setFontSize(12);
 
   doc.text(
-    "Salary Payslip",
-    150,
-    18
+    "Employee Salary Payslip",
+    135,
+    22
   );
-
-  // Employee Details
 
   doc.setTextColor(
     0,
@@ -140,28 +142,26 @@ function PayslipGeneration() {
   doc.text(
     `Employee Code : ${employeeData.emp_code}`,
     20,
-    50
+    55
   );
 
   doc.text(
     `Employee Name : ${employeeData.name}`,
     20,
-    60
+    65
   );
 
   doc.text(
     `Department : ${employeeData.department}`,
     20,
-    70
+    75
   );
 
   doc.text(
     `Month : ${month}`,
     20,
-    80
+    85
   );
-
-  // Salary Table
 
   doc.setFillColor(
     240,
@@ -171,68 +171,66 @@ function PayslipGeneration() {
 
   doc.rect(
     20,
-    95,
+    100,
     170,
     10,
     "F"
   );
 
   doc.text(
-    "Earnings",
+    "Description",
     25,
-    102
+    107
   );
 
   doc.text(
     "Amount",
     150,
-    102
+    107
   );
 
   doc.text(
     "Basic Salary",
     25,
-    120
+    125
   );
 
   doc.text(
-    `₹ ${basicSalary.toLocaleString()}`,
+    `${basicSalary.toLocaleString()}`,
     150,
-    120
+    125
   );
 
   doc.text(
     "HRA (20%)",
     25,
-    135
+    140
   );
 
   doc.text(
-    `₹ ${hra.toLocaleString()}`,
+    `${hra.toLocaleString()}`,
     150,
-    135
+    140
   );
 
   doc.text(
     "PF Deduction",
     25,
-    150
+    155
   );
 
   doc.text(
-    `₹ ${pf.toLocaleString()}`,
+    `${pf.toLocaleString()}`,
     150,
-    150
+    155
   );
 
   doc.line(
     20,
-    160,
+    165,
     190,
-    160
+    165
   );
-
-  doc.setFontSize(15);
 
   doc.setTextColor(
     67,
@@ -240,10 +238,12 @@ function PayslipGeneration() {
     202
   );
 
+  doc.setFontSize(16);
+
   doc.text(
-    `Net Salary : ₹ ${netSalary.toLocaleString()}`,
+    `Net Salary : ${netSalary.toLocaleString()}`,
     25,
-    180
+    185
   );
 
   doc.setTextColor(
@@ -255,8 +255,14 @@ function PayslipGeneration() {
   doc.setFontSize(10);
 
   doc.text(
-    "This is a computer-generated payslip.",
+    "This is a system generated payslip.",
     20,
+    260
+  );
+
+  doc.text(
+    "PayFlow HRMS",
+    160,
     260
   );
 
