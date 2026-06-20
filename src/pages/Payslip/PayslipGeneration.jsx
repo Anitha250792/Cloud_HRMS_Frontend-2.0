@@ -70,6 +70,18 @@ function PayslipGeneration() {
     );
   };
 
+  const basicSalary =
+  employeeData
+    ? Number(employeeData.salary || 0)
+    : 0;
+
+const hra = basicSalary * 0.20;
+
+const pf = basicSalary * 0.12;
+
+const netSalary =
+  basicSalary + hra - pf;
+
   const generatePDF = () => {
 
   if (!employeeData || !month) {
@@ -81,17 +93,7 @@ function PayslipGeneration() {
     return;
   }
 
-  const basicSalary =
-    Number(employeeData.salary);
 
-  const hra =
-    basicSalary * 0.20;
-
-  const pf =
-    basicSalary * 0.12;
-
-  const netSalary =
-    basicSalary + hra - pf;
 
   const doc = new jsPDF();
 
