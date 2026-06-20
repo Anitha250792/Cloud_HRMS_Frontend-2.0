@@ -1,39 +1,29 @@
-import axios from "axios";
-
-const API_URL =
-  "https://cloud-hrms-1.onrender.com/api/attendance";
+import api from "./api";
 
 export const getAttendanceRecords =
-  async () => {
-    return axios.get(
-      `${API_URL}/records/`
+  () =>
+    api.get(
+      "/attendance/records/"
     );
-  };
 
 export const getAttendanceSummary =
-  async () => {
-    return axios.get(
-      `${API_URL}/summary/`
+  () =>
+    api.get(
+      "/attendance/summary/"
     );
-  };
 
 export const getTodayAttendance =
-  async () => {
-    return axios.get(
-      `${API_URL}/my-today/`
+  () =>
+    api.get(
+      "/attendance/my-today/"
     );
-  };
 
-export const checkIn =
-  async () => {
-    return axios.post(
-      `${API_URL}/check-in/`
-    );
-  };
+export const checkIn = () =>
+  api.post(
+    "/attendance/check-in/"
+  );
 
-export const checkOut =
-  async () => {
-    return axios.post(
-      `${API_URL}/check-out/`
-    );
-  };
+export const checkOut = () =>
+  api.post(
+    "/attendance/check-out/"
+  );

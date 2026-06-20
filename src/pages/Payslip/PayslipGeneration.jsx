@@ -331,53 +331,205 @@ function PayslipGeneration() {
 
         </div>
 
-        {employeeData && (
+{employeeData && (
 
-          <div
-            style={{
-              marginTop: "25px",
-            }}
-          >
+<div className="payslip-preview">
 
-            <h3>
-              Employee Details
-            </h3>
+  <div className="payslip-header">
 
-            <p>
-              Name:
-              {" "}
-              {employeeData.name}
-            </p>
+    <div>
 
-            <p>
-              Department:
-              {" "}
-              {employeeData.department}
-            </p>
+      <h1>PayFlow HRMS</h1>
 
-            <p>
-              Salary:
-              {" "}
-              ₹
-              {Number(
-                employeeData.salary
-              ).toLocaleString()}
-            </p>
+      <p>
+        Employee Payroll Management System
+      </p>
 
-          </div>
+    </div>
 
-        )}
+    <div className="payslip-title">
 
-        <button
-          className="generate-btn"
-          onClick={
-            generatePDF
-          }
-        >
+      <h1>PAYSLIP</h1>
 
-          Download Payslip PDF
+      <p>{month}</p>
 
-        </button>
+    </div>
+
+  </div>
+
+  <div className="employee-section">
+
+    <h3>
+      Employee Information
+    </h3>
+
+    <div className="employee-grid">
+
+      <div>
+        <strong>Employee Code</strong>
+        <p>{employeeData.emp_code}</p>
+      </div>
+
+      <div>
+        <strong>Name</strong>
+        <p>{employeeData.name}</p>
+      </div>
+
+      <div>
+        <strong>Department</strong>
+        <p>{employeeData.department}</p>
+      </div>
+
+      <div>
+        <strong>Role</strong>
+        <p>{employeeData.role}</p>
+      </div>
+
+      <div>
+        <strong>Designation</strong>
+        <p>
+          {employeeData.designation || "-"}
+        </p>
+      </div>
+
+      <div>
+        <strong>Date Joined</strong>
+        <p>
+          {employeeData.date_joined}
+        </p>
+      </div>
+
+      <div>
+        <strong>Bank Account</strong>
+        <p>
+          {employeeData.bank_account || "-"}
+        </p>
+      </div>
+
+      <div>
+        <strong>IFSC Code</strong>
+        <p>
+          {employeeData.ifsc_code || "-"}
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div className="salary-summary">
+
+    <div>
+
+      <h4>Basic Salary</h4>
+
+      <h2>
+        ₹{basicSalary.toLocaleString()}
+      </h2>
+
+    </div>
+
+    <div>
+
+      <h4>HRA (20%)</h4>
+
+      <h2>
+        ₹{hra.toLocaleString()}
+      </h2>
+
+    </div>
+
+    <div>
+
+      <h4>PF (12%)</h4>
+
+      <h2>
+        ₹{pf.toLocaleString()}
+      </h2>
+
+    </div>
+
+  </div>
+
+  <div className="salary-breakdown">
+
+    <h3>
+      Salary Breakdown
+    </h3>
+
+    <table>
+
+      <thead>
+
+        <tr>
+
+          <th>Earnings</th>
+
+          <th>Amount</th>
+
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        <tr>
+
+          <td>Basic Salary</td>
+
+          <td>
+            ₹{basicSalary.toLocaleString()}
+          </td>
+
+        </tr>
+
+        <tr>
+
+          <td>House Rent Allowance</td>
+
+          <td>
+            ₹{hra.toLocaleString()}
+          </td>
+
+        </tr>
+
+        <tr>
+
+          <td>Provident Fund</td>
+
+          <td>
+            ₹{pf.toLocaleString()}
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+  <div className="net-pay-card">
+
+    <h3>Net Salary</h3>
+
+    <h1>
+      ₹{Math.round(netSalary).toLocaleString()}
+    </h1>
+
+  </div>
+
+</div>
+
+)}
+
+<button
+  className="generate-btn"
+  onClick={generatePDF}
+  disabled={!employeeData || !month}
+>
+  Download Payslip PDF
+</button>
 
       </div>
 

@@ -1,35 +1,39 @@
-import axios from "axios";
+import api from "./api";
 
-const API_URL =
-  "https://cloud-hrms-1.onrender.com/api/leave";
-
-export const applyLeave = (data) =>
-  axios.post(
-    `${API_URL}/apply/`,
+export const applyLeave = (
+  data
+) =>
+  api.post(
+    "/leave/apply/",
     data
   );
 
-export const getMyLeaves = () =>
-  axios.get(
-    `${API_URL}/my/`
-  );
+export const getMyLeaves =
+  () =>
+    api.get(
+      "/leave/my/"
+    );
 
-export const getLeaveBalance = () =>
-  axios.get(
-    `${API_URL}/balance/`
-  );
+export const getLeaveBalance =
+  () =>
+    api.get(
+      "/leave/balance/"
+    );
 
-export const getPendingLeaves = () =>
-  axios.get(
-    `${API_URL}/pending/`
-  );
+export const getPendingLeaves =
+  () =>
+    api.get(
+      "/leave/pending/"
+    );
 
-export const approveLeave = (id) =>
-  axios.post(
-    `${API_URL}/${id}/approve/`
-  );
+export const approveLeave =
+  (id) =>
+    api.post(
+      `/leave/${id}/approve/`
+    );
 
-export const rejectLeave = (id) =>
-  axios.post(
-    `${API_URL}/${id}/reject/`
-  );
+export const rejectLeave =
+  (id) =>
+    api.post(
+      `/leave/${id}/reject/`
+    );

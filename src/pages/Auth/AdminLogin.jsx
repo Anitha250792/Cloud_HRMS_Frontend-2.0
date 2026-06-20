@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { loginUser } from "../../services/authService";
 import "./AdminLogin.css";
 
 import adminImage from "../../assets/images/admin-login.jpg";
@@ -13,27 +14,58 @@ function AdminLogin() {
     password: "",
   });
 
+  const [error, setError] = useState("");
+
   const handleChange = (e) => {
+
     setForm({
       ...form,
       [e.target.name]: e.target.value,
     });
+
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
 
     e.preventDefault();
 
-    localStorage.setItem(
-      "userRole",
-      "HR"
-    );
+    setError("");
 
-    localStorage.setItem("userRole", "HR");
-navigate("/dashboard");
+    try {
+
+      const response =
+        await loginUser(form);
+
+      if (
+        response.role !== "HR"
+      ) {
+
+        setError(
+          "This account is not HR"
+        );
+
+        localStorage.clear();
+
+        return;
+      }
+
+      navigate("/dashboard");
+
+    }
+
+    catch (error) {
+
+      setError(
+        error.response?.data?.detail ||
+        "Invalid Credentials"
+      );
+
+    }
+
   };
 
   return (
+
     <div className="auth-page">
 
       <div className="auth-container">
@@ -45,26 +77,45 @@ navigate("/dashboard");
             <p>HR Payroll System</p>
           </div>
 
-          <h2>Sign in to your Account</h2>
+          <h2>
+            Sign in to your Account
+          </h2>
+
+          {error && (
+            <p
+              style={{
+                color: "red",
+                marginBottom: "15px",
+              }}
+            >
+              {error}
+            </p>
+          )}
 
           <form onSubmit={handleLogin}>
 
-            <label>Admin Email</label>
+            <label>
+              Admin Email
+            </label>
 
             <input
               type="email"
               name="email"
               placeholder="admin@company.com"
+              value={form.email}
               onChange={handleChange}
               required
             />
 
-            <label>Password</label>
+            <label>
+              Password
+            </label>
 
             <input
               type="password"
               name="password"
-              placeholder="Enter password"
+              placeholder="Enter Password"
+              value={form.password}
               onChange={handleChange}
               required
             />
@@ -101,7 +152,9 @@ navigate("/dashboard");
       </div>
 
     </div>
+
   );
+
 }
 
 export default AdminLogin;

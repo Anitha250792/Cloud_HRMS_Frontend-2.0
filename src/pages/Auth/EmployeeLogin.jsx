@@ -2,7 +2,11 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "./EmployeeLogin.css";
 
-import employeeImage from "../../assets/images/employee-login.jpg";
+import { loginUser }
+from "../../services/authService";
+
+import employeeImage
+from "../../assets/images/employee-login.jpg";
 
 function EmployeeLogin() {
 
@@ -13,21 +17,58 @@ function EmployeeLogin() {
     password: "",
   });
 
+  const [error, setError] =
+    useState("");
+
   const handleChange = (e) => {
 
     setForm({
       ...form,
-      [e.target.name]: e.target.value,
+      [e.target.name]:
+        e.target.value,
     });
 
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
 
     e.preventDefault();
 
-   localStorage.setItem("userRole", "EMPLOYEE");
-navigate("/employee-dashboard");
+    setError("");
+
+    try {
+
+      const response =
+        await loginUser(form);
+
+      if (
+        response.role !==
+        "EMPLOYEE"
+      ) {
+
+        setError(
+          "This account is not Employee"
+        );
+
+        localStorage.clear();
+
+        return;
+      }
+
+      navigate(
+        "/employee-dashboard"
+      );
+
+    }
+
+    catch (error) {
+
+      setError(
+        "Invalid Credentials"
+      );
+
+    }
+
   };
 
   return (
@@ -39,13 +80,33 @@ navigate("/employee-dashboard");
         <div className="auth-form">
 
           <div className="logo-box">
+
             <h1>PayFlow</h1>
-            <p>HR Payroll System</p>
+
+            <p>
+              HR Payroll System
+            </p>
+
           </div>
 
-          <h2>Employee Login</h2>
+          <h2>
+            Employee Login
+          </h2>
 
-          <form onSubmit={handleLogin}>
+          {error && (
+            <p
+              style={{
+                color: "red",
+                marginBottom: "15px",
+              }}
+            >
+              {error}
+            </p>
+          )}
+
+          <form
+            onSubmit={handleLogin}
+          >
 
             <label>Email</label>
 
@@ -53,6 +114,7 @@ navigate("/employee-dashboard");
               type="email"
               name="email"
               placeholder="employee@company.com"
+              value={form.email}
               onChange={handleChange}
               required
             />
@@ -62,12 +124,15 @@ navigate("/employee-dashboard");
             <input
               type="password"
               name="password"
-              placeholder="Enter password"
+              placeholder="Enter Password"
+              value={form.password}
               onChange={handleChange}
               required
             />
 
-            <button type="submit">
+            <button
+              type="submit"
+            >
               Sign In
             </button>
 
@@ -75,7 +140,9 @@ navigate("/employee-dashboard");
 
           <div className="auth-links">
 
-            <Link to="/forgot-password">
+            <Link
+              to="/forgot-password"
+            >
               Forgot Password?
             </Link>
 
@@ -101,6 +168,7 @@ navigate("/employee-dashboard");
     </div>
 
   );
+
 }
 
 export default EmployeeLogin;

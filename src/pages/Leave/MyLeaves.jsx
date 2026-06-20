@@ -6,6 +6,8 @@ import {
   getLeaveBalance,
 } from "../../services/leaveService";
 
+import "./MyLeaves.css";
+
 function MyLeaves() {
 
   const [leaves, setLeaves] =
@@ -30,13 +32,9 @@ function MyLeaves() {
       const balanceRes =
         await getLeaveBalance();
 
-      setLeaves(
-        leaveRes.data
-      );
+      setLeaves(leaveRes.data);
 
-      setBalance(
-        balanceRes.data
-      );
+      setBalance(balanceRes.data);
 
     } catch (error) {
 
@@ -46,116 +44,168 @@ function MyLeaves() {
 
   };
 
+  const approved =
+    leaves.filter(
+      leave => leave.status === "APPROVED"
+    ).length;
+
+  const pending =
+    leaves.filter(
+      leave => leave.status === "PENDING"
+    ).length;
+
+  const rejected =
+    leaves.filter(
+      leave => leave.status === "REJECTED"
+    ).length;
+
   return (
 
     <AdminLayout>
 
-      <h1>My Leaves</h1>
+      <div className="my-leaves-page">
 
-      {balance && (
+        <h1>My Leave Requests</h1>
 
-        <div
-          style={{
-            display:"grid",
-            gridTemplateColumns:
-              "repeat(3,1fr)",
-            gap:"20px",
-            marginTop:"20px",
-            marginBottom:"20px",
-          }}
-        >
+        {/* LEAVE BALANCE */}
 
-          <div className="leave-card">
-            <h3>Casual</h3>
-            <h2>
-              {
-                balance.balance.CASUAL
-              }
-            </h2>
+        {balance && (
+
+          <div className="leave-balance-grid">
+
+            <div className="leave-card">
+              <h4>Casual Leave</h4>
+              <h2>{balance.balance.CASUAL}</h2>
+            </div>
+
+            <div className="leave-card">
+              <h4>Sick Leave</h4>
+              <h2>{balance.balance.SICK}</h2>
+            </div>
+
+            <div className="leave-card">
+              <h4>Earned Leave</h4>
+              <h2>{balance.balance.EARNED}</h2>
+            </div>
+
+            <div className="leave-card">
+              <h4>Unpaid Leave</h4>
+              <h2>{balance.balance.UNPAID}</h2>
+            </div>
+
           </div>
 
-          <div className="leave-card">
-            <h3>Sick</h3>
-            <h2>
-              {
-                balance.balance.SICK
-              }
-            </h2>
+        )}
+
+        {/* LEAVE STATS */}
+
+        <div className="leave-stats">
+
+          <div className="stat-card">
+            <h4>Total</h4>
+            <h2>{leaves.length}</h2>
           </div>
 
-          <div className="leave-card">
-            <h3>Earned</h3>
-            <h2>
-              {
-                balance.balance.EARNED
-              }
-            </h2>
+          <div className="stat-card approved">
+            <h4>Approved</h4>
+            <h2>{approved}</h2>
+          </div>
+
+          <div className="stat-card pending">
+            <h4>Pending</h4>
+            <h2>{pending}</h2>
+          </div>
+
+          <div className="stat-card rejected">
+            <h4>Rejected</h4>
+            <h2>{rejected}</h2>
           </div>
 
         </div>
 
-      )}
+        {/* LEAVE HISTORY */}
 
-      <div
-        className="leave-table-card"
-      >
+        <div className="leave-table-card">
 
-        <table>
+          <h2>Leave History</h2>
 
-          <thead>
+          <table>
 
-            <tr>
-              <th>Type</th>
-              <th>From</th>
-              <th>To</th>
-              <th>Status</th>
-            </tr>
+            <thead>
 
-          </thead>
-
-          <tbody>
-
-            {leaves.map((leave) => (
-
-              <tr key={leave.id}>
-
-                <td>
-                  {leave.leave_type}
-                </td>
-
-                <td>
-                  {leave.start_date}
-                </td>
-
-                <td>
-                  {leave.end_date}
-                </td>
-
-                <td>
-
-                  <span
-                    className={
-                      leave.status.toLowerCase()
-                    }
-                  >
-                    {leave.status}
-                  </span>
-
-                </td>
-
+              <tr>
+                <th>Leave Type</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Status</th>
               </tr>
 
-            ))}
+            </thead>
 
-          </tbody>
+            <tbody>
 
-        </table>
+              {leaves.length === 0 ? (
+
+                <tr>
+
+                  <td
+                    colSpan="4"
+                    style={{
+                      textAlign:"center",
+                      padding:"20px"
+                    }}
+                  >
+                    No Leave Requests Found
+                  </td>
+
+                </tr>
+
+              ) : (
+
+                leaves.map((leave) => (
+
+                  <tr key={leave.id}>
+
+                    <td>
+                      {leave.leave_type}
+                    </td>
+
+                    <td>
+                      {leave.start_date}
+                    </td>
+
+                    <td>
+                      {leave.end_date}
+                    </td>
+
+                    <td>
+
+                      <span
+                        className={`status ${leave.status.toLowerCase()}`}
+                      >
+                        {leave.status}
+                      </span>
+
+                    </td>
+
+                  </tr>
+
+                ))
+
+              )}
+
+            </tbody>
+
+          </table>
+
+        </div>
 
       </div>
 
     </AdminLayout>
 
   );
+
 }
 
 export default MyLeaves;

@@ -82,3 +82,37 @@
   }
 
 }
+
+.leave-balance-card{
+  background:#fff;
+  padding:20px;
+  border-radius:16px;
+  margin-bottom:25px;
+  box-shadow:0 4px 15px rgba(0,0,0,.08);
+}
+
+.balance-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+  margin-top:15px;
+}
+
+.balance-grid div{
+  background:#F8FAFC;
+  padding:15px;
+  border-radius:12px;
+  text-align:center;
+}
+
+.balance-grid h4{
+  margin:0;
+  color:#64748B;
+}
+
+.balance-grid p{
+  font-size:24px;
+  font-weight:700;
+  color:#4338CA;
+  margin-top:10px;
+}

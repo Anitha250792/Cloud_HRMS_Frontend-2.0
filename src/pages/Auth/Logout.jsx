@@ -1,43 +1,29 @@
-import { useNavigate } from "react-router-dom";
-import "./Logout.css";
+import { useEffect }
+from "react";
+
+import { useNavigate }
+from "react-router-dom";
+
+import {
+  logoutUser
+}
+from "../../services/authService";
 
 function Logout() {
 
-  const navigate = useNavigate();
+  const navigate =
+    useNavigate();
 
-  const handleLogout = () => {
+  useEffect(()=>{
 
-    localStorage.clear();
+    logoutUser();
 
     navigate("/");
 
-  };
+  },[]);
 
-  return (
+  return null;
 
-    <div className="logout-page">
-
-      <div className="logout-card">
-
-        <h1>
-          You have been logged out
-        </h1>
-
-        <p>
-          Thank you for using PayFlow
-        </p>
-
-        <button
-          onClick={handleLogout}
-        >
-          Sign In Again
-        </button>
-
-      </div>
-
-    </div>
-
-  );
 }
 
 export default Logout;

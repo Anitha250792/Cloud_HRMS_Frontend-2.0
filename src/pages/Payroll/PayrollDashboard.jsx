@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import AdminLayout from "../../layouts/AdminLayout";
+
 import { getEmployees } from "../../services/employeeService";
 
 import "./PayrollDashboard.css";
 
 function PayrollDashboard() {
+
+  const navigate = useNavigate();
 
   const [employees, setEmployees] =
     useState([]);
@@ -25,7 +29,9 @@ function PayrollDashboard() {
 
       setEmployees(response.data);
 
-    } catch (error) {
+    }
+
+    catch (error) {
 
       console.log(error);
 
@@ -44,14 +50,21 @@ function PayrollDashboard() {
       0
     );
 
+  const totalHRA =
+    grossSalary * 0.20;
+
+  const totalPF =
+    grossSalary * 0.12;
+
   const netSalary =
-    Math.round(
-      grossSalary * 0.9
-    );
+    grossSalary +
+    totalHRA -
+    totalPF;
 
   const processedPayslips =
     employees.filter(
-      emp => Number(emp.salary) > 0
+      emp =>
+        Number(emp.salary) > 0
     ).length;
 
   const pendingPayslips =
@@ -72,202 +85,302 @@ function PayrollDashboard() {
 
     <AdminLayout>
 
-      <h1
-        style={{
-          marginBottom: "25px",
-        }}
-      >
-        Payroll Dashboard
-      </h1>
+      <div className="payroll-page">
 
-      {/* SUMMARY */}
+        <div className="page-header">
 
-      <div className="payroll-stats">
+          <div>
 
-        <div className="pay-card">
+            <h1>
+              Payroll Dashboard
+            </h1>
 
-          <h3>
-            Total Employees
-          </h3>
+            <p>
+              Employee salary processing and payslip generation
+            </p>
+
+          </div>
+
+          <button
+            className="generate-payroll-btn"
+            onClick={() =>
+              navigate(
+                "/payslip-generation"
+              )
+            }
+          >
+            Generate Payslips
+          </button>
+
+        </div>
+
+        {/* SUMMARY */}
+
+        <div className="payroll-stats">
+
+          <div className="pay-card">
+
+            <h4>
+              Total Employees
+            </h4>
+
+            <h2>
+              {totalEmployees}
+            </h2>
+
+          </div>
+
+          <div className="pay-card">
+
+            <h4>
+              Gross Payroll
+            </h4>
+
+            <h2>
+              ₹
+              {grossSalary.toLocaleString()}
+            </h2>
+
+          </div>
+
+          <div className="pay-card">
+
+            <h4>
+              Net Payroll
+            </h4>
+
+            <h2>
+              ₹
+              {Math.round(
+                netSalary
+              ).toLocaleString()}
+            </h2>
+
+          </div>
+
+          <div className="pay-card">
+
+            <h4>
+              Pending Payslips
+            </h4>
+
+            <h2>
+              {pendingPayslips}
+            </h2>
+
+          </div>
+
+        </div>
+
+        {/* PAYROLL BREAKDOWN */}
+
+        <div className="payroll-breakdown">
+
+          <div className="break-card">
+
+            <h3>
+              Total Basic Salary
+            </h3>
+
+            <h2>
+              ₹
+              {grossSalary.toLocaleString()}
+            </h2>
+
+          </div>
+
+          <div className="break-card">
+
+            <h3>
+              HRA (20%)
+            </h3>
+
+            <h2>
+              ₹
+              {Math.round(
+                totalHRA
+              ).toLocaleString()}
+            </h2>
+
+          </div>
+
+          <div className="break-card">
+
+            <h3>
+              PF Deduction (12%)
+            </h3>
+
+            <h2>
+              ₹
+              {Math.round(
+                totalPF
+              ).toLocaleString()}
+            </h2>
+
+          </div>
+
+        </div>
+
+        {/* PROGRESS */}
+
+        <div className="payroll-progress">
 
           <h2>
-            {totalEmployees}
+            Payroll Processing Status
           </h2>
+
+          <div className="progress-bar">
+
+            <div
+              className="progress-fill"
+              style={{
+                width:
+                  `${progress}%`,
+              }}
+            />
+
+          </div>
+
+          <p>
+            {progress}% Completed
+          </p>
 
         </div>
 
-        <div className="pay-card">
+        {/* EMPLOYEE TABLE */}
 
-          <h3>
-            Gross Salary
-          </h3>
+        <div className="employee-payroll-table">
 
           <h2>
-            ₹
-            {grossSalary.toLocaleString()}
+            Employee Payroll Records
           </h2>
 
-        </div>
+          <table>
 
-        <div className="pay-card">
-
-          <h3>
-            Net Salary
-          </h3>
-
-          <h2>
-            ₹
-            {netSalary.toLocaleString()}
-          </h2>
-
-        </div>
-
-        <div className="pay-card">
-
-          <h3>
-            Pending Payslips
-          </h3>
-
-          <h2>
-            {pendingPayslips}
-          </h2>
-
-        </div>
-
-      </div>
-
-      {/* PAYROLL PROGRESS */}
-
-      <div
-        className="payroll-progress"
-      >
-
-        <h2>
-          Payroll Processing
-        </h2>
-
-        <div
-          className="progress-bar"
-        >
-
-          <div
-            className="progress-fill"
-            style={{
-              width:
-                `${progress}%`,
-            }}
-          ></div>
-
-        </div>
-
-        <p>
-          {progress}% Completed
-        </p>
-
-      </div>
-
-      {/* EMPLOYEE TABLE */}
-
-      <div
-        style={{
-          background: "#fff",
-          padding: "24px",
-          borderRadius: "16px",
-          marginTop: "25px",
-        }}
-      >
-
-        <h2>
-          Employee Payroll
-        </h2>
-
-        <table
-          style={{
-            width: "100%",
-            marginTop: "20px",
-          }}
-        >
-
-          <thead>
-
-            <tr>
-
-              <th>
-                Employee Code
-              </th>
-
-              <th>
-                Employee
-              </th>
-
-              <th>
-                Department
-              </th>
-
-              <th>
-                Salary
-              </th>
-
-            </tr>
-
-          </thead>
-
-          <tbody>
-
-            {employees.length === 0 ? (
+            <thead>
 
               <tr>
 
-                <td
-                  colSpan="4"
-                  style={{
-                    textAlign: "center",
-                    padding: "20px",
-                  }}
-                >
-                  No Records Found
-                </td>
+                <th>
+                  Employee Code
+                </th>
+
+                <th>
+                  Name
+                </th>
+
+                <th>
+                  Department
+                </th>
+
+                <th>
+                  Basic Salary
+                </th>
+
+                <th>
+                  Net Salary
+                </th>
+
+                <th>
+                  Action
+                </th>
 
               </tr>
 
-            ) : (
+            </thead>
 
-              employees.map(
-                (emp) => (
+            <tbody>
 
-                  <tr
-                    key={emp.id}
+              {employees.length === 0 ? (
+
+                <tr>
+
+                  <td
+                    colSpan="6"
+                    style={{
+                      textAlign:
+                        "center",
+                    }}
                   >
+                    No Employees Found
+                  </td>
 
-                    <td>
-                      {emp.emp_code}
-                    </td>
+                </tr>
 
-                    <td>
-                      {emp.name}
-                    </td>
+              ) : (
 
-                    <td>
-                      {emp.department}
-                    </td>
+                employees.map(
+                  (emp) => {
 
-                    <td>
-                      ₹
-                      {Number(
+                    const salary =
+                      Number(
                         emp.salary
-                      ).toLocaleString()}
-                    </td>
+                      );
 
-                  </tr>
+                    const net =
+                      salary +
+                      salary * 0.20 -
+                      salary * 0.12;
 
+                    return (
+
+                      <tr
+                        key={emp.id}
+                      >
+
+                        <td>
+                          {emp.emp_code}
+                        </td>
+
+                        <td>
+                          {emp.name}
+                        </td>
+
+                        <td>
+                          {emp.department}
+                        </td>
+
+                        <td>
+                          ₹
+                          {salary.toLocaleString()}
+                        </td>
+
+                        <td>
+                          ₹
+                          {Math.round(
+                            net
+                          ).toLocaleString()}
+                        </td>
+
+                        <td>
+
+                          <button
+                            className="view-payslip-btn"
+                            onClick={() =>
+                              navigate(
+                                "/payslip-generation"
+                              )
+                            }
+                          >
+                            Generate
+                          </button>
+
+                        </td>
+
+                      </tr>
+
+                    );
+
+                  }
                 )
-              )
 
-            )}
+              )}
 
-          </tbody>
+            </tbody>
 
-        </table>
+          </table>
+
+        </div>
 
       </div>
 

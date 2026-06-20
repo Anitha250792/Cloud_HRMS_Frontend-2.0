@@ -3,6 +3,7 @@ import AdminLayout from "../../layouts/AdminLayout";
 
 import {
   getPendingLeaves,
+  getMyLeaves,
   approveLeave,
   rejectLeave,
 } from "../../services/leaveService";
@@ -20,19 +21,20 @@ function LeaveManagement() {
 
   const fetchLeaves = async () => {
 
-    try {
+  try {
 
-      const response =
-        await getPendingLeaves();
+    const response =
+      await getMyLeaves();
 
-      setLeaves(response.data);
+    setLeaves(response.data);
 
-    } catch (error) {
+  } catch (error) {
 
-      console.log(error);
+    console.log(error);
 
-    }
-  };
+  }
+
+};
 
   const handleApprove = async (id) => {
 

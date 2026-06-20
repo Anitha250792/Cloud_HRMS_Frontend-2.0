@@ -1,17 +1,11 @@
-import {
-  useEffect,
-  useState
-} from "react";
-
-import {
-  useNavigate
-} from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import AdminLayout from "../../layouts/AdminLayout";
 
 import {
   getEmployees,
-  deleteEmployee
+  deleteEmployee,
 } from "../../services/employeeService";
 
 import "./EmployeeList.css";
@@ -43,6 +37,7 @@ function EmployeeList() {
       console.log(error);
 
     }
+
   };
 
   useEffect(() => {
@@ -53,13 +48,12 @@ function EmployeeList() {
 
   const handleDelete = async (id) => {
 
-    if (
-      !window.confirm(
+    const confirmDelete =
+      window.confirm(
         "Delete Employee?"
-      )
-    ) {
-      return;
-    }
+      );
+
+    if (!confirmDelete) return;
 
     try {
 
@@ -72,6 +66,22 @@ function EmployeeList() {
       console.log(error);
 
     }
+
+  };
+
+  const handleGeneratePayslip = (
+    employee
+  ) => {
+
+    localStorage.setItem(
+      "selectedEmployee",
+      JSON.stringify(employee)
+    );
+
+    navigate(
+      "/payslip-generation"
+    );
+
   };
 
   const filteredEmployees =
@@ -86,6 +96,12 @@ function EmployeeList() {
           ) ||
 
         emp.emp_code
+          ?.toLowerCase()
+          .includes(
+            search.toLowerCase()
+          ) ||
+
+        emp.email
           ?.toLowerCase()
           .includes(
             search.toLowerCase()
@@ -115,10 +131,14 @@ function EmployeeList() {
 
           <div>
 
-            <h1>Employees</h1>
+            <h1>
+              Employees
+            </h1>
 
             <p>
-              Manage employee records
+              Total Employees :
+              {" "}
+              {filteredEmployees.length}
             </p>
 
           </div>
@@ -163,6 +183,7 @@ function EmployeeList() {
               )
             }
           >
+
             <option value="All">
               All Departments
             </option>
@@ -190,13 +211,16 @@ function EmployeeList() {
             <thead>
 
               <tr>
+
                 <th>Code</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Department</th>
                 <th>Role</th>
                 <th>Salary</th>
-                <th>Action</th>
+                <th>Status</th>
+                <th>Actions</th>
+
               </tr>
 
             </thead>
@@ -208,7 +232,7 @@ function EmployeeList() {
                 <tr>
 
                   <td
-                    colSpan="7"
+                    colSpan="8"
                     style={{
                       textAlign:
                         "center",
@@ -250,36 +274,79 @@ function EmployeeList() {
                         ₹{emp.salary}
                       </td>
 
-<td>
+                      <td>
 
-<div
-  style={{
-    display: "flex",
-    gap: "10px",
-    justifyContent: "center",
-  }}
->
+                        <span
+                          style={{
+                            background:
+                              emp.is_active
+                                ? "#DCFCE7"
+                                : "#FEE2E2",
+                            color:
+                              emp.is_active
+                                ? "#15803D"
+                                : "#DC2626",
+                            padding:
+                              "5px 10px",
+                            borderRadius:
+                              "20px",
+                            fontSize:
+                              "12px",
+                          }}
+                        >
+                          {emp.is_active
+                            ? "Active"
+                            : "Inactive"}
+                        </span>
 
-<button
-  onClick={() =>
-    navigate(`/employees/${emp.id}`)
-  }
->
-  View
-</button>
+                      </td>
 
-<button
-  className="delete-btn"
-  onClick={() =>
-    handleDelete(emp.id)
-  }
->
-  Delete
-</button>
+                      <td>
 
-</div>
+                        <div
+                          style={{
+                            display:
+                              "flex",
+                            gap: "8px",
+                            flexWrap:
+                              "wrap",
+                          }}
+                        >
 
-</td>
+                          <button
+                            onClick={() =>
+                              navigate(
+                                `/employees/${emp.id}`
+                              )
+                            }
+                          >
+                            View
+                          </button>
+
+                          <button
+                            onClick={() =>
+                              handleGeneratePayslip(
+                                emp
+                              )
+                            }
+                          >
+                            Payslip
+                          </button>
+
+                          <button
+                            className="delete-btn"
+                            onClick={() =>
+                              handleDelete(
+                                emp.id
+                              )
+                            }
+                          >
+                            Delete
+                          </button>
+
+                        </div>
+
+                      </td>
 
                     </tr>
 

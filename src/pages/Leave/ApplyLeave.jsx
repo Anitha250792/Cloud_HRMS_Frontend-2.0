@@ -1,9 +1,17 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AdminLayout from "../../layouts/AdminLayout";
-import { applyLeave } from "../../services/leaveService";
+
+import {
+  applyLeave,
+  getLeaveBalance,
+} from "../../services/leaveService";
+
 import "./ApplyLeave.css";
 
 function ApplyLeave() {
+
+  const [balance, setBalance] =
+    useState(null);
 
   const [form, setForm] = useState({
     leave_type: "",
@@ -11,6 +19,29 @@ function ApplyLeave() {
     end_date: "",
     reason: "",
   });
+
+  useEffect(() => {
+
+    loadBalance();
+
+  }, []);
+
+  const loadBalance = async () => {
+
+    try {
+
+      const response =
+        await getLeaveBalance();
+
+      setBalance(response.data);
+
+    } catch (error) {
+
+      console.log(error);
+
+    }
+
+  };
 
   const handleChange = (e) => {
 
@@ -25,6 +56,36 @@ function ApplyLeave() {
 
     try {
 
+      if (!form.leave_type) {
+        alert("Select Leave Type");
+        return;
+      }
+
+      if (!form.start_date) {
+        alert("Select Start Date");
+        return;
+      }
+
+      if (!form.end_date) {
+        alert("Select End Date");
+        return;
+      }
+
+      if (
+        new Date(form.end_date) <
+        new Date(form.start_date)
+      ) {
+        alert(
+          "End Date cannot be before Start Date"
+        );
+        return;
+      }
+
+      if (!form.reason.trim()) {
+        alert("Enter Reason");
+        return;
+      }
+
       await applyLeave(form);
 
       alert(
@@ -37,6 +98,8 @@ function ApplyLeave() {
         end_date: "",
         reason: "",
       });
+
+      loadBalance();
 
     } catch (error) {
 
@@ -51,102 +114,154 @@ function ApplyLeave() {
 
   return (
 
-<AdminLayout>
+    <AdminLayout>
 
-  <div className="apply-leave-container">
+      <div className="apply-leave-container">
 
-    <h1 className="leave-title">
-      Apply Leave
-    </h1>
+        <h1 className="leave-title">
+          Apply Leave
+        </h1>
 
-    <p className="leave-subtitle">
-      Submit your leave request for approval
-    </p>
+        <p className="leave-subtitle">
+          Submit your leave request for approval
+        </p>
 
-    <div className="leave-form">
+        {/* LEAVE BALANCE */}
 
-      <div className="form-group">
-        <label>Leave Type</label>
+        <div className="leave-balance-card">
 
-        <select
-          name="leave_type"
-          value={form.leave_type}
-          onChange={handleChange}
-        >
-          <option value="">
-            Select Leave Type
-          </option>
+          <h3>Available Leave Balance</h3>
 
-          <option value="CASUAL">
-            Casual Leave
-          </option>
+          <div className="balance-grid">
 
-          <option value="SICK">
-            Sick Leave
-          </option>
+            <div>
+              <h4>Casual</h4>
+              <p>
+                {balance?.balance?.CASUAL ?? 0}
+              </p>
+            </div>
 
-          <option value="EARNED">
-            Earned Leave
-          </option>
+            <div>
+              <h4>Sick</h4>
+              <p>
+                {balance?.balance?.SICK ?? 0}
+              </p>
+            </div>
 
-          <option value="UNPAID">
-            Unpaid Leave
-          </option>
-        </select>
-      </div>
+            <div>
+              <h4>Earned</h4>
+              <p>
+                {balance?.balance?.EARNED ?? 0}
+              </p>
+            </div>
 
-      <div className="date-row">
+            <div>
+              <h4>Unpaid</h4>
+              <p>
+                {balance?.balance?.UNPAID ?? 0}
+              </p>
+            </div>
 
-        <div className="form-group">
-          <label>Start Date</label>
+          </div>
 
-          <input
-            type="date"
-            name="start_date"
-            value={form.start_date}
-            onChange={handleChange}
-          />
         </div>
 
-        <div className="form-group">
-          <label>End Date</label>
+        {/* FORM */}
 
-          <input
-            type="date"
-            name="end_date"
-            value={form.end_date}
-            onChange={handleChange}
-          />
+        <div className="leave-form">
+
+          <div className="form-group">
+
+            <label>Leave Type</label>
+
+            <select
+              name="leave_type"
+              value={form.leave_type}
+              onChange={handleChange}
+            >
+              <option value="">
+                Select Leave Type
+              </option>
+
+              <option value="CASUAL">
+                Casual Leave
+              </option>
+
+              <option value="SICK">
+                Sick Leave
+              </option>
+
+              <option value="EARNED">
+                Earned Leave
+              </option>
+
+              <option value="UNPAID">
+                Unpaid Leave
+              </option>
+
+            </select>
+
+          </div>
+
+          <div className="date-row">
+
+            <div className="form-group">
+
+              <label>Start Date</label>
+
+              <input
+                type="date"
+                name="start_date"
+                value={form.start_date}
+                onChange={handleChange}
+              />
+
+            </div>
+
+            <div className="form-group">
+
+              <label>End Date</label>
+
+              <input
+                type="date"
+                name="end_date"
+                value={form.end_date}
+                onChange={handleChange}
+              />
+
+            </div>
+
+          </div>
+
+          <div className="form-group">
+
+            <label>Reason</label>
+
+            <textarea
+              rows="4"
+              name="reason"
+              value={form.reason}
+              placeholder="Enter reason for leave..."
+              onChange={handleChange}
+            />
+
+          </div>
+
+          <button
+            className="leave-btn"
+            onClick={handleSubmit}
+          >
+            Apply Leave
+          </button>
+
         </div>
 
       </div>
 
-      <div className="form-group">
-        <label>Reason</label>
-
-        <textarea
-          rows="4"
-          name="reason"
-          placeholder="Enter reason for leave..."
-          value={form.reason}
-          onChange={handleChange}
-        />
-      </div>
-
-      <button
-        className="leave-btn"
-        onClick={handleSubmit}
-      >
-        Apply Leave
-      </button>
-
-    </div>
-
-  </div>
-
-</AdminLayout>
+    </AdminLayout>
 
   );
+
 }
 
 export default ApplyLeave;
