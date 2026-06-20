@@ -7,14 +7,12 @@ export const loginUser = async (
   credentials
 ) => {
 
-  const response =
-    await axios.post(
-      `${API_URL}/login/`,
-      credentials
-    );
+  const response = await axios.post(
+    `${API_URL}/login/`,
+    credentials
+  );
 
-  const data =
-    response.data;
+  const data = response.data;
 
   localStorage.setItem(
     "accessToken",
@@ -42,4 +40,28 @@ export const loginUser = async (
   );
 
   return data;
+};
+
+export const logoutUser = () => {
+
+  localStorage.removeItem(
+    "accessToken"
+  );
+
+  localStorage.removeItem(
+    "refreshToken"
+  );
+
+  localStorage.removeItem(
+    "userRole"
+  );
+
+  localStorage.removeItem(
+    "userName"
+  );
+
+  localStorage.removeItem(
+    "userEmail"
+  );
+
 };
