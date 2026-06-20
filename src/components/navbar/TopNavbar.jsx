@@ -1,7 +1,8 @@
 import "./TopNavbar.css";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import SearchIcon from "@mui/icons-material/Search";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getPendingLeaves } from "../../services/leaveService";
 
 function TopNavbar() {
 
@@ -9,29 +10,56 @@ function TopNavbar() {
     useState(false);
 
   const [notifications, setNotifications] =
-    useState([
-      "New leave request submitted",
-      "Payroll generated successfully",
-      "Attendance updated",
-    ]);
+    useState([]);
 
   const userName =
     localStorage.getItem("userName") ||
-    "Sarah Johnson";
+    "Admin";
 
   const userRole =
     localStorage.getItem("userRole") ||
-    "HR Manager";
+    "HR";
+
+  useEffect(() => {
+
+    loadNotifications();
+
+  }, []);
+
+  const loadNotifications = async () => {
+
+    try {
+
+      const res =
+        await getPendingLeaves();
+
+      const notificationList =
+        res.data.map((leave) => {
+
+          return `${leave.employee_name || "Employee"} applied for ${leave.leave_type} leave`;
+
+        });
+
+      setNotifications(notificationList);
+
+    } catch (error) {
+
+      console.log(
+        "Notification Error",
+        error
+      );
+
+    }
+
+  };
 
   const handleNotificationClick = () => {
 
-    setShowNotifications(!showNotifications);
+    setShowNotifications(
+      !showNotifications
+    );
 
-    if (!showNotifications) {
-      setNotifications([]);
-    }
   };
-
   return (
 
     <div className="topbar">

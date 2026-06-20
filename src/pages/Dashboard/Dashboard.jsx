@@ -14,9 +14,32 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import ReceiptIcon from "@mui/icons-material/Receipt";
 import PaymentsIcon from "@mui/icons-material/Payments";
 
+import { useEffect, useState } from "react";
+import { getDashboardStats } from "../../services/dashboardService";
+
 function Dashboard() {
 
   const navigate = useNavigate();
+
+  const [stats, setStats] = useState({
+  employees: 0,
+  pending_leaves: 0,
+  approved_leaves: 0,
+  rejected_leaves: 0,
+});
+
+useEffect(() => {
+  loadDashboard();
+}, []);
+
+const loadDashboard = async () => {
+  try {
+    const res = await getDashboardStats();
+    setStats(res.data);
+  } catch (err) {
+    console.log(err);
+  }
+};
 
   return (
 
@@ -109,30 +132,29 @@ function Dashboard() {
           marginTop: "25px",
         }}
       >
+<StatusCard
+ title="Employees"
+ value={stats.employees}
+ color="#10B981"
+/>
 
-        <StatusCard
-          title="Processed"
-          value="96"
-          color="#10B981"
-        />
+<StatusCard
+ title="Pending Leaves"
+ value={stats.pending_leaves}
+ color="#F59E0B"
+/>
 
-        <StatusCard
-          title="Pending"
-          value="32"
-          color="#F59E0B"
-        />
+<StatusCard
+ title="Approved"
+ value={stats.approved_leaves}
+ color="#4338CA"
+/>
 
-        <StatusCard
-          title="Approved"
-          value="88"
-          color="#4338CA"
-        />
-
-        <StatusCard
-          title="Rejected"
-          value="08"
-          color="#EF4444"
-        />
+<StatusCard
+ title="Rejected"
+ value={stats.rejected_leaves}
+ color="#EF4444"
+/>
 
       </div>
 

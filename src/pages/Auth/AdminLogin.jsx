@@ -7,12 +7,16 @@ import adminImage from "../../assets/images/admin-login.jpg";
 
 function AdminLogin() {
 
+
+
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
+
+  const [showPassword, setShowPassword] = useState(false);
 
   const [error, setError] = useState("");
 
@@ -107,18 +111,30 @@ function AdminLogin() {
               required
             />
 
-            <label>
-              Password
-            </label>
+            <label>Password</label>
 
-            <input
-              type="password"
-              name="password"
-              placeholder="Enter Password"
-              value={form.password}
-              onChange={handleChange}
-              required
-            />
+<div className="password-box">
+
+  <input
+    type={showPassword ? "text" : "password"}
+    name="password"
+    placeholder="Enter Password"
+    value={form.password}
+    onChange={handleChange}
+    required
+  />
+
+  <button
+    type="button"
+    className="toggle-password"
+    onClick={() =>
+      setShowPassword(!showPassword)
+    }
+  >
+    {showPassword ? "Hide" : "Show"}
+  </button>
+
+</div>
 
             <button type="submit">
               Sign In
