@@ -89,17 +89,25 @@
 
 .password-box input{
     width:100%;
-    padding-right:80px;
+    margin-bottom:20px;
+    padding:14px 70px 14px 14px;
 }
+
+
 
 .toggle-password{
     position:absolute;
-    right:10px;
-    top:50%;
+    right:15px;
+    top:40%;
     transform:translateY(-50%);
-    background:none;
-    border:none;
-    color:#4338CA;
-    font-weight:600;
-    cursor:pointer;
+
+    width:auto !important;
+    background:none !important;
+    border:none !important;
+    color:#64748B !important;
+    padding:0 !important;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }

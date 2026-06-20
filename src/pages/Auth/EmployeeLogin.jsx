@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "./EmployeeLogin.css";
 
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { loginUser }
 from "../../services/authService";
 
@@ -135,14 +137,18 @@ function EmployeeLogin() {
   />
 
   <button
-    type="button"
-    className="toggle-password"
-    onClick={() =>
-      setShowPassword(!showPassword)
-    }
-  >
-    {showPassword ? "Hide" : "Show"}
-  </button>
+  type="button"
+  className="toggle-password"
+  onClick={() =>
+    setShowPassword(!showPassword)
+  }
+>
+  {showPassword ? (
+    <VisibilityOffIcon fontSize="small" />
+  ) : (
+    <VisibilityIcon fontSize="small" />
+  )}
+</button>
 
 </div>
 

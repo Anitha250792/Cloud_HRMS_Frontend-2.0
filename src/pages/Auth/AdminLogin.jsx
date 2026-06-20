@@ -4,7 +4,8 @@ import { loginUser } from "../../services/authService";
 import "./AdminLogin.css";
 
 import adminImage from "../../assets/images/admin-login.jpg";
-
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 function AdminLogin() {
 
 
@@ -124,15 +125,19 @@ function AdminLogin() {
     required
   />
 
-  <button
-    type="button"
-    className="toggle-password"
-    onClick={() =>
-      setShowPassword(!showPassword)
-    }
-  >
-    {showPassword ? "Hide" : "Show"}
-  </button>
+<button
+  type="button"
+  className="toggle-password"
+  onClick={() =>
+    setShowPassword(!showPassword)
+  }
+>
+  {showPassword ? (
+    <VisibilityOffIcon fontSize="small" />
+  ) : (
+    <VisibilityIcon fontSize="small" />
+  )}
+</button>
 
 </div>
 
