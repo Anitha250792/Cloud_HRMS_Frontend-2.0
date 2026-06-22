@@ -143,6 +143,18 @@ function EmployeeDetails() {
           </div>
         )}
 
+        <div className="full-width">
+
+  <label>Profile Photo</label>
+
+  <input
+    type="file"
+    accept="image/*"
+    onChange={handleImageChange}
+  />
+
+</div>
+
         <h1>Employee Profile</h1>
 
         <p>

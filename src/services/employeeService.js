@@ -7,7 +7,16 @@ export const getEmployee = (id) =>
   api.get(`/employees/${id}/`);
 
 export const createEmployee = (employeeData) =>
-  api.post("/employees/create/", employeeData);
+  api.post(
+    "/employees/create/",
+    employeeData,
+    {
+      headers: {
+        "Content-Type":
+          "multipart/form-data",
+      },
+    }
+  );
 
 export const updateEmployee = (
   id,

@@ -11,14 +11,33 @@ function AddEmployee() {
   const [error, setError] = useState("");
 
   const [employee, setEmployee] = useState({
-    emp_code: "",
-    name: "",
-    email: "",
-    department: "",
-    role: "",
-    salary: "",
-    date_joined: "",
-  });
+  emp_code: "",
+  name: "",
+  email: "",
+  phone: "",
+  gender: "",
+  dob: "",
+  marital_status: "",
+  address: "",
+  emergency_contact: "",
+
+  department: "",
+  role: "",
+  designation: "",
+  employment_type: "",
+  reporting_manager: "",
+  date_joined: "",
+
+  salary: "",
+
+  bank_name: "",
+  bank_account: "",
+  ifsc_code: "",
+  pan_number: "",
+  pf_number: "",
+
+  profile_photo: null,
+});
 
   const handleChange = (e) => {
 
@@ -28,6 +47,13 @@ function AddEmployee() {
     });
 
   };
+
+  const handleImageChange = (e) => {
+  setEmployee({
+    ...employee,
+    profile_photo: e.target.files[0],
+  });
+};
 
   const handleSave = async () => {
 
@@ -55,7 +81,13 @@ function AddEmployee() {
 
     try {
 
-      await createEmployee(employee);
+      const formData = new FormData();
+
+Object.keys(employee).forEach((key) => {
+  formData.append(key, employee[key]);
+});
+
+await createEmployee(formData);
 
       alert("Employee Added Successfully");
 
