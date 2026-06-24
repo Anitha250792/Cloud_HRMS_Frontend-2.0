@@ -5,20 +5,18 @@ function ProtectedRoute({
   allowedRole,
 }) {
 
-  const token =
-    localStorage.getItem(
-      "accessToken"
-    );
-
   const role =
     localStorage.getItem(
       "userRole"
     );
 
-  if (!token) {
+  if (!role) {
 
     return (
-      <Navigate to="/" />
+      <Navigate
+        to="/"
+        replace
+      />
     );
 
   }
@@ -29,7 +27,10 @@ function ProtectedRoute({
   ) {
 
     return (
-      <Navigate to="/" />
+      <Navigate
+        to="/"
+        replace
+      />
     );
 
   }

@@ -3,24 +3,19 @@ import axios from "axios";
 const API_URL =
   "https://cloud-hrms-1.onrender.com/api/auth";
 
-export const loginUser = async (credentials) => {
+export const loginUser = async (
+  credentials
+) => {
 
   const response = await axios.post(
     `${API_URL}/login/`,
-    credentials
+    credentials,
+    {
+      withCredentials: true,
+    }
   );
 
   const data = response.data;
-
-  localStorage.setItem(
-    "accessToken",
-    data.access
-  );
-
-  localStorage.setItem(
-    "refreshToken",
-    data.refresh
-  );
 
   localStorage.setItem(
     "userRole",
@@ -37,18 +32,15 @@ export const loginUser = async (credentials) => {
     data.user.email
   );
 
+  localStorage.setItem(
+    "userId",
+    data.user.id
+  );
+
   return data;
 };
 
 export const logoutUser = () => {
-
-  localStorage.removeItem(
-    "accessToken"
-  );
-
-  localStorage.removeItem(
-    "refreshToken"
-  );
 
   localStorage.removeItem(
     "userRole"
@@ -60,6 +52,10 @@ export const logoutUser = () => {
 
   localStorage.removeItem(
     "userEmail"
+  );
+
+  localStorage.removeItem(
+    "userId"
   );
 
 };
