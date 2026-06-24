@@ -23,6 +23,7 @@ function EmployeeDetails() {
   const [employee, setEmployee] =
     useState({
       emp_code: "",
+      profile_photo: null,
       name: "",
       email: "",
       phone: "",
@@ -78,6 +79,15 @@ function EmployeeDetails() {
     });
 
   };
+
+  const handleImageChange = (e) => {
+
+  setEmployee({
+    ...employee,
+    profile_photo: e.target.files[0],
+  });
+
+};
 
   const handleUpdate = async () => {
 

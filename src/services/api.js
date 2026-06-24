@@ -1,10 +1,9 @@
 import axios from "axios";
 
 const api = axios.create({
-
   baseURL:
     "https://cloud-hrms-1.onrender.com/api",
-
+  withCredentials: true,
 });
 
 api.interceptors.request.use(
@@ -16,14 +15,7 @@ api.interceptors.request.use(
         "accessToken"
       );
 
-    if (token) {
-
-      config.headers.Authorization =
-        `Bearer ${token}`;
-
-    }
-
-    return config;
+   
 
   },
 
