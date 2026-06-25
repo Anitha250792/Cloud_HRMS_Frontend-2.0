@@ -174,13 +174,7 @@ function EmployeeLogin() {
 
           </div>
 
-          from accounts.models import User
-
-for u in User.objects.all():
-    print(
-        u.email,
-        u.role
-    )
+          
 
         </div>
 
